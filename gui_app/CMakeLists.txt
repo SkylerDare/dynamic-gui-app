@@ -6,6 +6,11 @@ project( gui_app )
 
 find_package(OpenGL REQUIRED)
 
+# Set library / binary output directory 
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
 # 3rd party includes 
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 add_subdirectory(3rd_party/nlohmann_json)
@@ -21,11 +26,6 @@ elseif( ${CMAKE_SYSTEM_NAME} STREQUAL "Linux" )
 endif()
 
 include( files.cmake )
-
-# Set library / binary output directory 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 add_executable(${PROJECT_NAME} ${_GUI_APP_SOURCEFILES})
 

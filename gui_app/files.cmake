@@ -26,12 +26,8 @@ set (SDL_SOURCE_FILES
 
 if( ${CMAKE_SYSTEM_NAME} STREQUAL "Windows" )
 set( GUI_APP_WIN_SRC 
-    platform/windows/src/windows_udp_transport.cpp
-    platform/windows/src/windows_platform_functions.cpp
 ) 
 set( GUI_APP_WIN_INC 
-    platform/windows/inc/windows_udp_transport.h
-    platform/windows/inc/windows_platform_functions.h
 ) 
 else() 
 set( GUI_APP_WIN_SRC )
