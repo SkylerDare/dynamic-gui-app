@@ -17,11 +17,11 @@ add_subdirectory(${NLOHMANN_JSON_SOURCE_DIR} ${NLOHMANN_JSON_BINARY_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/3rd_party/imgui)
 
 # Project includes 
-include_directories( ${CMAKE_CURRENT_LIST_DIR}/common/inc )
+include_directories( ${CMAKE_CURRENT_LIST_DIR}/src/common/inc )
 if( ${CMAKE_SYSTEM_NAME} STREQUAL "Windows" )
-    include_directories( ${CMAKE_CURRENT_LIST_DIR}/platform/windows/inc )
+    include_directories( ${CMAKE_CURRENT_LIST_DIR}/src/platform/windows/inc )
 elseif( ${CMAKE_SYSTEM_NAME} STREQUAL "Linux" )
-    include_directories( ${CMAKE_CURRENT_LIST_DIR}/platform/linux/inc )
+    include_directories( ${CMAKE_CURRENT_LIST_DIR}/src/platform/linux/inc )
 endif()
 
 include( files.cmake )
