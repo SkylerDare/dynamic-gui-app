@@ -6,11 +6,6 @@ project( gui_app )
 
 find_package(OpenGL REQUIRED)
 
-# Set library / binary output directory 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
 # 3rd party includes 
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 add_subdirectory(3rd_party/nlohmann_json)

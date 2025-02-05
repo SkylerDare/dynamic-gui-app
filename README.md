@@ -1,10 +1,21 @@
 # dynamic-gui-app
 CS 4910 Senior Project - Dynamic GUI Application
 
+## Build instructions
+1. Clone the git repo i.e "git clone https://github.com/acichy2281/dynamic-gui-app.git"
+2. Create a build directory at the top level of the project. i.e "cd Path/to/dynamic-gui-app", "mkdir build"
+3. In the build directory enter "cmake .." 
+4. Build the project from the build directory "cmake --build ." or from the top level "cmake --build build"
+
 ## Dependencies 
 Application uses OpenGL & SDL for the backend. OpenGL is built in with Graphic Drivers for AMD, NVIDIA, and Intel. 
 
 CMake 3.29 and C++17 are required
+
+## 3rd Party Repositories included 
+SDL - v3.2.0
+IMGUI - v1.91.7
+nlohmann json - v3.11.1
 
 ### Windows
 C/C++ Build tools
