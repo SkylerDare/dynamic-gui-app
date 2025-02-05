@@ -1,9 +1,11 @@
-set ( GUI_APP_COMMON_SRC
-    src/common/src/main.cpp
+file(GLOB GUI_APP_COMMON_SRC 
+    "src/common/src/*"
+    "${CMAKE_SOURCE_DIR}/shared/common/src/*.cpp"
 )
 
-set (GUI_APP_COMMON_INC
-    src/common/inc/stdafx.h
+file(GLOB GUI_APP_COMMON_INC 
+    "src/common/inc/*"
+    "${CMAKE_SOURCE_DIR}/shared/common/inc/*"
 )
 
 file(GLOB IMGUI_SOURCE_FILES 
@@ -25,34 +27,28 @@ set (SDL_SOURCE_FILES
 )
 
 if( ${CMAKE_SYSTEM_NAME} STREQUAL "Windows" )
-set( GUI_APP_WIN_SRC 
-) 
-set( GUI_APP_WIN_INC 
-) 
+file(GLOB GUI_APP_WIN 
+    "${CMAKE_SOURCE_DIR}/shared/platform/windows/src/*.cpp"
+    "${CMAKE_SOURCE_DIR}/shared/platform/windows/inc/*.h"
+)
 else() 
-set( GUI_APP_WIN_SRC )
-set( GUI_APP_WIN_INC )
+set( GUI_APP_WIN )
 endif()
 
 if( ${CMAKE_SYSTEM_NAME} STREQUAL "Linux" )
-set( GUI_APP_LINUX_SRC 
-    
-)
-set( GUI_APP_LINUX_INC 
-    
+file(GLOB GUI_APP_LINUX 
+    "${CMAKE_SOURCE_DIR}/shared/platform/linux/src/*.cpp"
+    "${CMAKE_SOURCE_DIR}/shared/platform/linux/inc/*.h"
 )
 else() 
-set( GUI_APP_LINUX_SRC )
-set( GUI_APP_LINUX_INC )
+set( GUI_APP_LINUX )
 endif()
 
 set( _GUI_APP_SOURCEFILES
     ${GUI_APP_COMMON_SRC}
     ${GUI_APP_COMMON_INC}
-    ${GUI_APP_WIN_SRC}
-    ${GUI_APP_WIN_INC}
-    ${GUI_APP_LINUX_SRC}
-    ${GUI_APP_LINUX_INC}
+    ${GUI_APP_WIN}
+    ${GUI_APP_LINUX}
     ${GUI_APP_TOPLEVEL}
     ${IMGUI_SOURCE_FILES}
     ${SDL_SOURCE_FILES}
@@ -62,10 +58,7 @@ set( _GUI_APP_SOURCEFILES
 source_group( "" FILES ${GUI_APP_TOPLEVEL})
 source_group( gui_app/common/src FILES ${GUI_APP_COMMON_SRC})
 source_group( gui_app/common/inc FILES ${GUI_APP_COMMON_INC})
-source_group( gui_app/platform/windows/src FILES ${GUI_APP_WIN_SRC})
-source_group( gui_app/platform/windows/inc FILES ${GUI_APP_WIN_INC})
-source_group( gui_app/platform/linux/src FILES ${GUI_APP_LINUX_SRC})
-source_group( gui_app/platform/linux/inc FILES ${GUI_APP_LINUX_INC})
-source_group( gui_app/platform/linux/inc FILES ${GUI_APP_LINUX_INC})
+source_group( gui_app/platform/windows FILES ${GUI_APP_WIN})
+source_group( gui_app/platform/linux FILES ${GUI_APP_LINUX})
 source_group( imgui FILES ${IMGUI_SOURCE_FILES})
 source_group( sdl FILES ${SDL_SOURCE_FILES})
