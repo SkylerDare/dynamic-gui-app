@@ -8,9 +8,13 @@ find_package(OpenGL REQUIRED)
 
 # 3rd party includes 
 set(JSON_BuildTests OFF CACHE INTERNAL "")
-add_subdirectory(3rd_party/nlohmann_json)
-add_subdirectory(3rd_party/SDL)
-include_directories(3rd_party/imgui)
+set(SDL_SOURCE_DIR "${CMAKE_SOURCE_DIR}/3rd_party/SDL")
+set(SDL_BINARY_DIR "${CMAKE_BINARY_DIR}/bin/SDL")
+add_subdirectory(${SDL_SOURCE_DIR} ${SDL_BINARY_DIR})
+set(NLOHMANN_JSON_SOURCE_DIR "${CMAKE_SOURCE_DIR}/3rd_party/nlohmann_json")
+set(NLOHMANN_JSON_BINARY_DIR "${CMAKE_BINARY_DIR}/bin/nlohmann_json")
+add_subdirectory(${NLOHMANN_JSON_SOURCE_DIR} ${NLOHMANN_JSON_BINARY_DIR})
+include_directories(${CMAKE_SOURCE_DIR}/3rd_party/imgui)
 
 # Project includes 
 include_directories( ${CMAKE_CURRENT_LIST_DIR}/common/inc )

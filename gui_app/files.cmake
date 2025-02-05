@@ -7,21 +7,21 @@ set (GUI_APP_COMMON_INC
 )
 
 file(GLOB IMGUI_SOURCE_FILES 
-    "3rd_party/imgui/*.cpp"
-    "3rd_party/imgui/*.h"
+    "${CMAKE_SOURCE_DIR}/3rd_party/imgui/*.cpp"
+    "${CMAKE_SOURCE_DIR}/3rd_party/imgui/*.h"
 )
 
 set(IMGUI_SOURCE_FILES ${IMGUI_SOURCE_FILES}
-    3rd_party/imgui/backends/imgui_impl_sdl3.h
-    3rd_party/imgui/backends/imgui_impl_sdl3.cpp
-    3rd_party/imgui/backends/imgui_impl_opengl3.h
-    3rd_party/imgui/backends/imgui_impl_opengl3_loader.h
-    3rd_party/imgui/backends/imgui_impl_opengl3.cpp
+    ${CMAKE_SOURCE_DIR}/3rd_party/imgui/backends/imgui_impl_sdl3.h
+    ${CMAKE_SOURCE_DIR}/3rd_party/imgui/backends/imgui_impl_sdl3.cpp
+    ${CMAKE_SOURCE_DIR}/3rd_party/imgui/backends/imgui_impl_opengl3.h
+    ${CMAKE_SOURCE_DIR}/3rd_party/imgui/backends/imgui_impl_opengl3_loader.h
+    ${CMAKE_SOURCE_DIR}/3rd_party/imgui/backends/imgui_impl_opengl3.cpp
 )
 
 set (SDL_SOURCE_FILES
-    3rd_party/SDL/include/SDL3/SDL.h
-    3rd_party/SDL/include/SDL3/SDL_opengl.h
+    ${CMAKE_SOURCE_DIR}/3rd_party/SDL/include/SDL3/SDL.h
+    ${CMAKE_SOURCE_DIR}/3rd_party/SDL/include/SDL3/SDL_opengl.h
 )
 
 if( ${CMAKE_SYSTEM_NAME} STREQUAL "Windows" )
