@@ -1,0 +1,14 @@
+{
+    "Title" : "Dynamic GUI App",
+    "MainWindow" :
+    {
+        "Title" : "WidgetWindow",
+        "WidgetList": 
+        [
+            {
+                "Type" : "Text",
+                "Value" : "Sample Text"
+            }
+        ]
+    }
+}

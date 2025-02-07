@@ -31,4 +31,4 @@ include( files.cmake )
 
 add_executable(${PROJECT_NAME} ${_GUI_APP_SOURCEFILES})
 
-target_link_libraries(${PROJECT_NAME} PUBLIC OpenGL::GL SDL3::SDL3)
+target_link_libraries(${PROJECT_NAME} PUBLIC OpenGL::GL SDL3::SDL3 nlohmann_json::nlohmann_json)
