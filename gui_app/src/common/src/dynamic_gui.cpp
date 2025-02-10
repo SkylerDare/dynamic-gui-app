@@ -1,6 +1,7 @@
 /* Project includes */
 #include "stdafx.h"
 #include "dynamic_gui.h"
+#include "text_widget.h"
 
 DynamicGui_C::DynamicGui_C()
 {
@@ -144,6 +145,7 @@ bool DynamicGui_C::ShowGui()
     // Main loop
     _isRunning = true;
     std::cout << "Running GUI App\n";
+    uint16_t testPrintInt = 0;
 #ifdef __EMSCRIPTEN__
     // For an Emscripten build we are disabling file-system access, so let's not attempt to do a fopen() of the imgui.ini file.
     // You may manually call LoadIniSettingsFromMemory() to load settings from your own storage.
@@ -182,58 +184,72 @@ bool DynamicGui_C::ShowGui()
         ImGui_ImplSDL3_NewFrame();
         ImGui::NewFrame();
 
-        ImGui::SetNextWindowSize(ImVec2(550, 680), ImGuiCond_FirstUseEver);
-        ImGui::Begin(_widgetWindowName.c_str());
-        for (const auto& [key, widget] : _widgetMap)
-        {
-            switch (widget.type)
-            {
-                case WidgetTypes_E::TEXT:
-                    ImGui::Text(std::any_cast<std::string>(widget.value).c_str());
-                    break;
+        // ImGui::SetNextWindowSize(ImVec2(550, 680), ImGuiCond_FirstUseEver);
+        // ImGui::Begin(_widgetWindowName.c_str());
+        // for (const auto& [key, widget] : _widgetMap)
+        // {
+        //     switch (widget.type)
+        //     {
+        //         case WidgetTypes_E::TEXT:
+        //             ImGui::Text(std::any_cast<std::string>(widget.value).c_str());
+        //             break;
                 
-                default:
-                    break;
+        //         default:
+        //             break;
+        //     }
+        // }
+        // ImGui::End();
+
+        for (auto& window : _windowList)
+        {
+            std::shared_ptr<WidgetInterface_I> widget;
+            if (true == window.GetWidgetAt(0, widget))
+            {
+                if (auto textWidget = std::dynamic_pointer_cast<TextWidget_C>(widget))
+                {
+                    textWidget->SetWidgetValue("Updating int: %" PRIu16, testPrintInt);
+                }
             }
+            window.ShowWindow();
         }
-        ImGui::End();
+        testPrintInt++;
 
         // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-        if (show_demo_window)
-            ImGui::ShowDemoWindow(&show_demo_window);
+        /*if (show_demo_window)
+            ImGui::ShowDemoWindow(&show_demo_window);*/
 
         // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
-        {
-            static float f = 0.0f;
-            static int counter = 0;
+        //{
+        //    static float f = 0.0f;
+        //    static int counter = 0;
 
-            ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+        //    ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
 
-            ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-            ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-            ImGui::Checkbox("Another Window", &show_another_window);
+        //    ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
+        //    ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
+        //    ImGui::Checkbox("Another Window", &show_another_window);
 
-            ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-            ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
+        //    ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+        //    ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
 
-            if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-                counter++;
-            ImGui::SameLine();
-            ImGui::Text("counter = %d", counter);
+        //    if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+        //        counter++;
+        //    ImGui::SameLine();
+        //    ImGui::Text("counter = %d", counter);
 
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
-            ImGui::End();
-        }
+        //    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+        //    ImGui::End();
+        // }
 
         // 3. Show another simple window.
-        if (show_another_window)
-        {
-            ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-            ImGui::Text("Hello from another window!");
-            if (ImGui::Button("Close Me"))
-                show_another_window = false;
-            ImGui::End();
-        }
+        //if (show_another_window)
+        //{
+        //    ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
+        //    ImGui::Text("Hello from another window!");
+        //    if (ImGui::Button("Close Me"))
+        //        show_another_window = false;
+        //    ImGui::End();
+        //}
 
         // Rendering
         ImGui::Render();
@@ -252,22 +268,34 @@ bool DynamicGui_C::ShowGui()
 void DynamicGui_C::ParseJsonData()
 {
     _mainWindowName = _jsonData["Title"];
-    _widgetWindowName = _jsonData["MainWindow"]["Title"];
-    for (const auto& widget : _jsonData["MainWindow"]["WidgetList"])
+    // _widgetWindowName = _jsonData["MainWindow"]["Title"];
+    for (const auto& window : _jsonData["Windows"])
     {
-        WidgetInfo_T widgetInfo;
-        std::string widgetTypeStr = widget["Type"];
-        std::regex textBoxRegex("text", std::regex_constants::icase);
+        GuiWindow_C newWindow(window["Title"]);
 
-        if (true == std::regex_search(widgetTypeStr, textBoxRegex))
+        for (const auto& widget : window["WidgetList"])
         {
-            widgetInfo.type = WidgetTypes_E::TEXT;
-            widgetInfo.value = std::string(widget["Value"]);
-            std::cout << "Adding text widget to Main Window " << std::any_cast<std::string>(widgetInfo.value) << "\n";
+            // WidgetInfo_T widgetInfo;
+            std::string widgetTypeStr = widget["Type"];
+            std::regex textBoxRegex("text", std::regex_constants::icase);
+
+            if (true == std::regex_search(widgetTypeStr, textBoxRegex))
+            {
+                // widgetInfo.type = WidgetTypes_E::TEXT;
+                // widgetInfo.value = std::string(widget["Value"]);
+
+                auto newWidget = std::make_shared<TextWidget_C>();
+                newWidget->SetWidgetValue(std::string(widget["Value"]).c_str());
+                newWindow.AddWidget(newWidget);
+
+                // std::cout << "Adding text widget to Main Window " << std::any_cast<std::string>(widgetInfo.value) << "\n";
+                std::cout << "Adding text widget to Main Window\n";
+            }
+            // _widgetMap[_widgetKeyCount] = widgetInfo;
+            // _widgetKeyCount++;
+            // std::cout << "Widget Count: " << _widgetKeyCount << "\n";
         }
-        _widgetMap[_widgetKeyCount] = widgetInfo;
-        _widgetKeyCount++;
-        std::cout << "Widget Count: " << _widgetKeyCount << "\n";
+        _windowList.push_back(newWindow);
     }
 }
 

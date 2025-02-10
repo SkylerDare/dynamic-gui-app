@@ -2,6 +2,7 @@
 #define DYNAMIC_GUI_H
 
 #include "stdafx.h"
+#include "gui_window.h"
 
 class DynamicGui_C 
 {
@@ -22,7 +23,8 @@ class DynamicGui_C
          * 
          * @param configFilePath absolute file path to a config file 
          * 
-         * @return true false
+         * @return true 
+         * @return false 
          */
         bool SetConfigFile(const std::string& configFilePath);
 
@@ -32,17 +34,14 @@ class DynamicGui_C
         /**
          * @brief Initializes SDL backend for GUI app
          * 
-         * @return true 
-         * @return false 
          */
         bool Initialize();
 
         /**
          * @brief Displays the GUI window
          * 
-         * @return true false
-         * @retval true - Window was displayed
-         * @retval false - Window was never displayed
+         * @return true 
+         * @return false 
          */
         bool ShowGui();
 
@@ -59,18 +58,19 @@ class DynamicGui_C
         void DeInitialize();
 
         /* Variables */
-        bool                                            _isRunning                      = false;
-        bool                                            _initialized                    = false;
-        uint16_t                                        _widgetKeyCount                 = 0;
-        std::map<uint16_t, WidgetInfo_T>                _widgetMap;
-        std::ifstream                                   _configFile;
-        std::string                                     _configFilePath;
-        nlohmann::json                                  _jsonData;
-        std::string                                     _glslVersion;
-        std::string                                     _mainWindowName;
-        std::string                                     _widgetWindowName;
-        SDL_GLContext                                   _glContext;
-        SDL_Window*                                     _window;
+        bool                                                    _isRunning                      = false;
+        bool                                                    _initialized                    = false;
+        // uint16_t                                                _widgetKeyCount                 = 0;
+        // std::map<uint16_t, WidgetInfo_T>                        _widgetMap;
+        std::vector<GuiWindow_C>                                _windowList;
+        std::ifstream                                           _configFile;
+        std::string                                             _configFilePath;
+        nlohmann::json                                          _jsonData;
+        std::string                                             _glslVersion;
+        std::string                                             _mainWindowName;
+        // std::string                                             _widgetWindowName;
+        SDL_GLContext                                           _glContext;
+        SDL_Window*                                             _window;
 
 };
 

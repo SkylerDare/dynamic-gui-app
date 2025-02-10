@@ -1,14 +1,26 @@
 {
     "Title" : "Dynamic GUI App",
-    "MainWindow" :
-    {
-        "Title" : "WidgetWindow",
-        "WidgetList": 
-        [
-            {
-                "Type" : "Text",
-                "Value" : "Sample Text"
-            }
-        ]
-    }
+    "Windows" :
+    [
+        {
+            "Title" : "WidgetWindow1",
+            "WidgetList": 
+            [
+                {
+                    "Type" : "Text",
+                    "Value" : "Sample Text 1"
+                }
+            ]
+        },
+        {
+            "Title" : "WidgetWindow2",
+            "WidgetList": 
+            [
+                {
+                    "Type" : "Text",
+                    "Value" : "Sample Text 2"
+                }
+            ]
+        }
+    ]
 }

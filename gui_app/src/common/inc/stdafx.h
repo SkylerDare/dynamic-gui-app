@@ -20,6 +20,7 @@
 #include <chrono>
 #include <future>
 #include <map>
+#include <inttypes.h>
 
 /* Project includes */
 #include "custom_types.h"
