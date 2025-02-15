@@ -1,0 +1,17 @@
+file(GLOB PROPERTY_GATHERER_LIBRARY_SRC 
+    "src/*"
+)
+
+file(GLOB PROPERTY_GATHERER_LIBRARY_INC 
+    "inc/*"
+)
+
+set( _PROPERTY_GATHERER_LIBRARY_SOURCEFILES
+    ${PROPERTY_GATHERER_LIBRARY_SRC}
+    ${PROPERTY_GATHERER_LIBRARY_INC}
+    files.cmake
+)
+
+source_group( "" FILES ${PROPERTY_GATHERER_LIBRARY_TOPLEVEL})
+source_group( property_gatherer_library/src FILES ${PROPERTY_GATHERER_LIBRARY_SRC})
+source_group( property_gatherer_library/inc FILES ${PROPERTY_GATHERER_LIBRARY_INC})
