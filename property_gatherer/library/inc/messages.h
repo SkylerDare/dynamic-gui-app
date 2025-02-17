@@ -12,6 +12,8 @@
 #include <string>
 #include <variant>
 #include <iostream>
+#include <memory>
+#include <cstring>
 
 namespace PropertyGatherer
 {

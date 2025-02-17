@@ -3,9 +3,12 @@
 
 /* System include */
 #include <iostream>
+#include <iomanip>
 
 /* Platform includes */
 #include <termios.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 bool Linux_IsUserQuit();
 
